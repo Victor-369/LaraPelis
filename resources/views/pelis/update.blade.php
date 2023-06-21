@@ -1,48 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="Aplicación de gestión de películas LaraPelis">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
-    <title>{{config('app.name')}} - PORTADA</title>
-</head>
-<body class="container p-3">
-    <nav>
-        <ul class="nav nav-pills my-3">
-            <li class="nav-item mr-2">
-                <a class="nav-link active" href="{{url('/')}}">Inicio</a>
-            </li>
-            <li class="nav-item mr-2">
-                <a class="nav-link" href="{{route('pelis.index')}}">Listado</a>
-            </li>
-            <li class="nav-item mr-2">
-                <a class="nav-link" href="{{route('pelis.create')}}">Nueva película</a>
-            </li>
-        </ul>
-    </nav>
+@extends('layouts.master')
 
-    <h1 class="my-2">Gestor de películas LaraPelis</h1>
-    <main>
-        <h2>Actualización de la película {{"$peli->titulo"}}</h2>
+@section('titulo', "Actualizar $peli->titulo")
 
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all as $error)
-                <li>{{$error}}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
-        @if(Session::has('success'))
-            <div class="alert alert-success">
-                {{Session::get('success')}}
-            </div>
-        @endif
-
+@section('contenido')
         <form class="my-2 border p-5" method="POST" action="{{route('pelis.update', $peli->id)}}">
             @csrf
             @method('PUT')
@@ -79,14 +39,9 @@
                 </a>
             </div>
         </div>
-        <div class="btn-group" role="group" aria-label="Links">
-            <a href="{{url('/')}}" class="btn btn-primary m-2">Inicio</a>
-            <a href="{{route('pelis.index')}}" class="btn btn-primary m-2">Listado</a>
-        </div>
-    </main>
+@endsection
 
-    <footer class="page-footer font-small p-4 bg-light">
-        <p>Aplicación creada por Víctor García como ejemplo. Desarrollada utilizando <b>Laravel</b> y <b>Bootstrap</b>.</p>
-    </footer>
-</body>
-</html>
+@section('enlaces')
+    @parent    
+    <a href="{{route('pelis.index')}}" class="btn btn-primary m-2">Listado</a>    
+@endsection

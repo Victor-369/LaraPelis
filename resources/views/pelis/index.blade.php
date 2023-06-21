@@ -1,45 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="Aplicación de gestión de películas LaraPelis">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
-    <title>{{config('app.name')}} - PORTADA</title>
-</head>
-<body class="container p-3">
-    <nav>
-        <ul class="nav nav-pills my-3">
-            <li class="nav-item mr-2">
-                <a class="nav-link" href="{{url('/')}}">Inicio</a>
-            </li>
-            <li class="nav-item mr-2">
-                <a class="nav-link active" href="{{route('pelis.index')}}">Listado</a>
-            </li>
-            <li class="nav-item mr-2">
-                <a class="nav-link" href="{{route('pelis.create')}}">Nueva película</a>
-            </li>
-        </ul>
-    </nav>
+@extends('layouts.master')
 
-    <h1 class="my-2">Gestor de películas LaraPelis</h1>
-    <main>
-        <h2>Listado de películas</h2>
+@section('titulo', "Listado de películas")
 
-        @if (Session::has('success'))
-            <div class="alert alert-success">
-                {{Session::get('success')}}
-            </div>
-        @endif
-        
-        <div class="row">
-            <div class="col-6 text-start">{{$pelis->links()}}</div>
-            <div class="col-6 text-end">
-                <p>Nueva película <a href="{{route('pelis.create')}}" class="btn btn-success ml-2">+</a></p>
-            </div>
-        </div>
-
+@section('contenido')
         <table class="table table-striped table-bordered">
             <tr>
                 <th>ID</th>
@@ -72,14 +35,8 @@
                 <td colspan="4">Mostrando {{sizeof($pelis)}} de {{$total}}.</td>
             </tr>
         </table>
+@endsection
 
-        <div class="btn-group" role="group" label="Links">
-            <a href="{{url('/')}}" class="btn btn-primary mr-2">Inicio</a>
-        </div>
-    </main>
-
-    <footer class="page-footer font-small p-4 bg-light">
-        <p>Aplicación creada por <a href="https://github.com/Victor-369">Víctor García</a> como ejemplo. Desarrollada utilizando <b>Laravel</b> y <b>Bootstrap</b>.</p>
-    </footer>
-</body>
-</html>
+@section('enlaces')
+    @parent
+@endsection
