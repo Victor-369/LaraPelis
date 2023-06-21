@@ -15,13 +15,13 @@
     <nav>
         <ul class="nav nav-pills my-3">
             <li class="nav-item mr-2">
-                <a clas="nav-link" href="{{url('/')}}">Inicio</a>
+                <a class="nav-link {{Route::currentRouteName() == null ? 'active' : ''}}" href="{{url('/')}}">Inicio</a>
             </li>
             <li class="nav-item mr-2">
-                <a clas="nav-link" href="{{route('pelis.index')}}">Listado</a>
+                <a class="nav-link {{Route::currentRouteName() == 'pelis.index' ? 'active' : ''}}" href="{{route('pelis.index')}}">Listado</a>
             </li>
             <li class="nav-item">
-                <a clas="nav-link" href="{{route('pelis.create')}}">Nueva película</a>
+                <a class="nav-link {{Route::currentRouteName() == 'pelis.create' ? 'active' : ''}}" href="{{route('pelis.create')}}">Nueva película</a>
             </li>
         </ul>
     </nav>
