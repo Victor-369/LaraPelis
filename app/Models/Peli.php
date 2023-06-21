@@ -9,5 +9,6 @@ class Peli extends Model
 {
     use HasFactory;
 
+    //protected $table = '';
     protected $fillable = ['titulo', 'director', 'anyo', 'descatalogada'];
 }
