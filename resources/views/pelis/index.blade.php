@@ -3,6 +3,7 @@
 @section('titulo', "Listado de películas")
 
 @section('contenido')
+        {{$pelis->links();}}
         <table class="table table-striped table-bordered">
             <tr>
                 <th>ID</th>

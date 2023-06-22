@@ -32,8 +32,19 @@
     <main>
         <h2>@yield('titulo')</h2>
 
-        @includeWhen(Session::has('success'), 'layouts.success')
-        @includeWhen($errors->any(), 'layouts.error')
+        @if(Session::has('success'))
+            <x-alert type="success" message="{{Session::get('success')}}"/>
+        @endif
+
+        @if($errors->any())
+            <x-alert type="danger" message="Se han producido errores:">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+            </x-alert>
+        @endif
 
         @yield('contenido')
 
