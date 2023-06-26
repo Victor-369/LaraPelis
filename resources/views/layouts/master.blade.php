@@ -50,7 +50,7 @@
 
         <div class="btn-group" role="group" aria-label="Links">
             @section('enlaces')
-                <a href="{{url('/')}}" class="btn btn-primary m-2">Inicio</a>
+                <a href="{{route('portada')}}" class="btn btn-primary m-2">Inicio</a>
             @show
         </div>
     </main>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PeliController;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,14 @@ use App\Http\Controllers\PeliController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+// Rompe el MVC
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+Route::get('/', [WelcomeController::class, 'index'])->name('portada');
 
 // CRUD de Pelis
 Route::resource('pelis', PeliController::class);
