@@ -29,3 +29,22 @@ Route::resource('pelis', PeliController::class);
 
 // Ruta para la confirmación de eliminación
 Route::get('pelis/{peli}/delete', [PeliController::class, 'delete'])->name('pelis.delete');
+
+
+// INICIO ZONA DE PRUEBAS
+// Route::get('test', function() {
+//     return "Estás haciendo la prueba por GET.";
+// });
+
+// Route::post('test', function() {
+//     return "Estás haciendo la prueba por POST.";
+// });
+
+// Route::put('test', function() {
+//     return "Estás haciendo la prueba por PUT.";
+// });
+
+// Route::delete('test', function() {
+//     return "Estás haciendo la prueba por DELETE.";
+// });
+// FIN ZONA DE PRUEBAS
