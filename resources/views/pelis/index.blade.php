@@ -18,7 +18,7 @@
                     <td>{{$peli->titulo}}</td>
                     <td>{{$peli->director}}</td>
                     <td>{{$peli->anyo}}</td>
-                    <td>{{$peli->descatalogada}}</td>
+                    <td>{{$peli->descatalogada? 'SI': 'NO'}}</td>
                     <td class="text-center p-0">
                         <a class="btn btn-success" href="{{route('pelis.show', $peli->id)}}">
                             <img heigh="20" width="20" src="{{asset('images/buttons/show.svg')}}" alt="Detalles" title="Detalles">
