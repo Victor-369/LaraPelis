@@ -19,7 +19,8 @@
                 <a class="nav-link {{$pagina == null ? 'active' : ''}}" href="{{route('portada')}}">Inicio</a>
             </li>
             <li class="nav-item mr-2">
-                <a class="nav-link {{$pagina == 'pelis.index' ? 'active' : ''}}" href="{{route('pelis.index')}}">Listado</a>
+                <a class="nav-link {{$pagina == 'pelis.index' ||
+                                    $pagina == 'pelis.search' ? 'active' : ''}}" href="{{route('pelis.index')}}">Listado</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{$pagina == 'pelis.create' ? 'active' : ''}}" href="{{route('pelis.create')}}">Nueva película</a>
