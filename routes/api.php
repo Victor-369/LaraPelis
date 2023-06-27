@@ -19,6 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/pelis', function() {
-    return Peli::all();
-});
+// Route::get('/pelis', function() {
+//     return Peli::all();
+// });
