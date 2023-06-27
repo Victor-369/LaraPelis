@@ -59,10 +59,8 @@ class PeliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Peli $peli)
     {
-        $peli = Peli::findOrFail($id);
-
         return view('pelis.show', ['peli' => $peli]);
     }
 
@@ -72,10 +70,8 @@ class PeliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Peli $peli)
     {
-        $peli = Peli::findOrFail($id);
-
         return view('pelis.update', ['peli' => $peli]);
     }
 
@@ -86,7 +82,7 @@ class PeliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Peli $peli)
     {
         $request->validate([
             'titulo' => 'required|max:255',
@@ -95,7 +91,6 @@ class PeliController extends Controller
             'descatalogada' => 'sometimes'
         ]);
 
-        $peli = Peli::findOrFail($id);
         $peli->update($request->all() + ['descatalogada' => 0]);
 
         return back()->with('success', "Película $peli->titulo actualizada.");
@@ -107,19 +102,16 @@ class PeliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Peli $peli)
     {
-        $peli = Peli::findOrFail($id);
         $peli->delete();
 
         return redirect('pelis')->with('success', "Película $peli->titulo eliminado.");
     }
 
     // Entrada manual de confirmación de borrado
-    public function delete($id)
+    public function delete(Peli $peli)
     {
-        $peli = Peli::findOrFail($id);
-
         return view('pelis.delete', ['peli' => $peli]);
     }
 }
