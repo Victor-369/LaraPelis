@@ -31,7 +31,7 @@ Route::resource('pelis', PeliController::class);
 Route::get('pelis/{peli}/delete', [PeliController::class, 'delete'])->name('pelis.delete');
 
 // Para buscar pelis por título o director
-Route::get('/pelis/search', PelisController::class, 'search')->name('pelis.search');
+Route::get('/pelis/search', [PeliController::class, 'search'])->name('pelis.search');
 
 
 // INICIO ZONA DE PRUEBAS

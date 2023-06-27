@@ -9,7 +9,7 @@
             <input name="titulo" type="text" class="col form-control mr-2 mb-2" 
                     placeholder="Título" maxlength="16" value="{{$titulo ?? ''}}">  
             <input name="director" type="text" class="col form-control mr-2 mb-2" 
-                    placeholder="Director" maxlength="16" value="{{$modelo ?? ''}}">
+                    placeholder="Director" maxlength="16" value="{{$director ?? ''}}">
             
             <button type="submit" class="col btn btn-primary mr-2 mb-2">Buscar</button>
 
@@ -47,7 +47,7 @@
                 </tr>
             @endforeach
             <tr>
-                <td colspan="4">Mostrando {{sizeof($pelis)}} de {{$pelis->total}}.</td>
+                <td colspan="4">Mostrando {{sizeof($pelis)}} de {{$pelis->total()}}.</td>
             </tr>
         </table>
 @endsection

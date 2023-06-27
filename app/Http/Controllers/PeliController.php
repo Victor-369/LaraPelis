@@ -126,12 +126,15 @@ class PeliController extends Controller
 
         // recupera los resultados, se agrega titulo y director al paginator
         // para que haga bien los enlaces y se mantenga el filtro al pasar de página 
-        $bikes = Bike::where('titulo', 'like', "%$titulo%")
+        $pelis = Peli::where('titulo', 'like', "%$titulo%")
                     ->where('director', 'like', "%$director%")
                     ->paginate (config('paginator.pelis'))
-                    ->appends (['titulo' => $titulo, 'director' => $director]);
+                    ->appends (['titulo' => $titulo
+                                ,'director' => $director]);
 
         // retorna la vista de lista con el filtro aplicado
-        return view('pelis.index', ['pelis'=>$pelis, 'titulo' => $titulo, 'director '=>$director]);
+        return view('pelis.index', ['pelis' => $pelis
+                                    ,'titulo' => $titulo
+                                    ,'director' => $director]);
     }
 }
