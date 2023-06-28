@@ -22,6 +22,10 @@ use App\Http\Controllers\WelcomeController;
 // });
 
 
+// Para buscar pelis por título y/o director
+// Vigilar con solapamiento de rutas
+Route::get('/pelis/search', [PeliController::class, 'search'])->name('pelis.search');
+
 Route::get('/', [WelcomeController::class, 'index'])->name('portada');
 
 // CRUD de Pelis
@@ -30,8 +34,6 @@ Route::resource('pelis', PeliController::class);
 // Ruta para la confirmación de eliminación
 Route::get('pelis/{peli}/delete', [PeliController::class, 'delete'])->name('pelis.delete');
 
-// Para buscar pelis por título o director
-Route::get('/pelis/search', [PeliController::class, 'search'])->name('pelis.search');
 
 
 // INICIO ZONA DE PRUEBAS
