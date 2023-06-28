@@ -14,7 +14,8 @@ class PeliController extends Controller
      */
     public function index()
     {
-        $pelis = Peli::orderBy('id', 'DESC')->paginate(config('pagination.pelis', 10));
+        //$pelis = Peli::orderBy('id', 'DESC')->paginate(config('pagination.pelis', 10));
+        $pelis = Peli::orderBy('id', 'ASC')->paginate(config('pagination.pelis', 10));
 
         $total = Peli::count();
 

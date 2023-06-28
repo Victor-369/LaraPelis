@@ -32,16 +32,33 @@ Route::get('/', [WelcomeController::class, 'index'])->name('portada');
 // Route::resource('pelis', PeliController::class);
 
 // Se agrega el middleware "adulto" para editar, crear y borrar. De esta manera no podrá modificar datos.
-Route::get('/pelis', [PeliController::class, 'index'])->name('pelis.index');
-Route::get('/pelis/create', [PeliController::class, 'create'])->name('pelis.create')->middleware('adulto');
-Route::get('/pelis/{peli}', [PeliController::class, 'show'])->name('pelis.show');
-Route::post('/pelis', [PeliController::class, 'store'])->name('pelis.store');
-Route::get('/pelis/{peli}/edit', [PeliController::class, 'edit'])->name('pelis.edit')->middleware('adulto');
-Route::match(['PUT', 'PATCH'], '/pelis/{peli}', [PeliController::class, 'update'])->name('pelis.update')->middleware('adulto');
-Route::delete('/pelis/{peli}', [PeliController::class, 'destroy'])->name('pelis.destroy')->middleware('adulto');
+Route::get('/pelis', [PeliController::class, 'index'])
+    ->name('pelis.index');
+
+Route::get('/pelis/create', [PeliController::class, 'create'])
+    ->name('pelis.create')
+    ->middleware('adulto');
+
+Route::get('/pelis/{peli}', [PeliController::class, 'show'])
+    ->name('pelis.show');
+
+Route::post('/pelis', [PeliController::class, 'store'])
+    ->name('pelis.store');
+
+Route::get('/pelis/{peli}/edit', [PeliController::class, 'edit'])
+    ->name('pelis.edit');
+
+Route::match(['PUT', 'PATCH'], '/pelis/{peli}', [PeliController::class, 'update'])
+    ->name('pelis.update')
+    ->middleware('adulto');
+
+Route::delete('/pelis/{peli}', [PeliController::class, 'destroy'])
+    ->name('pelis.destroy')
+    ->middleware('signed');
 
 // Ruta para la confirmación de eliminación
-Route::get('pelis/{peli}/delete', [PeliController::class, 'delete'])->name('pelis.delete')->middleware('adulto');
+Route::get('pelis/{peli}/delete', [PeliController::class, 'delete'])
+    ->name('pelis.delete');
 
 
 

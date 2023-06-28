@@ -3,7 +3,7 @@
 @section('titulo', "Confirmación de borrado de $peli->titulo")
 
 @section('contenido')
-        <form class="my-2 border p-5" method="POST" action="{{route('pelis.destroy', $peli->id)}}">
+        <form class="my-2 border p-5" method="POST" action="{{URL::signedRoute('pelis.destroy', $peli->id)}}">
             @csrf
             @method('DELETE')
             <label for="confirmdelete">Confirmar borrado de {{"$peli->titulo"}}:</label>
