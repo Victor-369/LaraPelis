@@ -50,7 +50,7 @@ Route::get('/pelis/{peli}/edit', [PeliController::class, 'edit'])
 
 Route::match(['PUT', 'PATCH'], '/pelis/{peli}', [PeliController::class, 'update'])
     ->name('pelis.update')
-    ->middleware('adulto');
+    ->middleware('prohibido');
 
 Route::delete('/pelis/{peli}', [PeliController::class, 'destroy'])
     ->name('pelis.destroy')
