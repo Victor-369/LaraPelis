@@ -36,8 +36,7 @@ Route::get('/pelis', [PeliController::class, 'index'])
     ->name('pelis.index');
 
 Route::get('/pelis/create', [PeliController::class, 'create'])
-    ->name('pelis.create')
-    ->middleware('adulto');
+    ->name('pelis.create');
 
 Route::get('/pelis/{peli}', [PeliController::class, 'show'])
     ->name('pelis.show');
