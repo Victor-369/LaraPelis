@@ -21,7 +21,7 @@ class Prohibido
         // if($request->query('edad') < 18) {
         //     abort(403, 'Aceso denegado, debes ser mayor de edad para acceder a este contenido.');
         // }
-        abort(403, 'Aceso denegado, no tienes permiso para manipular este contenido.');
+        abort(403, 'Acceso denegado, no tienes permiso para manipular este contenido.');
 
         //return $next($request);
         return $response;

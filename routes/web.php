@@ -46,7 +46,8 @@ Route::post('/pelis', [PeliController::class, 'store'])
     ->name('pelis.store');
 
 Route::get('/pelis/{peli}/edit', [PeliController::class, 'edit'])
-    ->name('pelis.edit');
+    ->name('pelis.edit')
+    ->middleware('prohibido');
 
 Route::match(['PUT', 'PATCH'], '/pelis/{peli}', [PeliController::class, 'update'])
     ->name('pelis.update')
