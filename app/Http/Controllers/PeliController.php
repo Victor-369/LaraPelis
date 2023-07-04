@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Peli;
+use Illuminate\Support\Facades\Storage;
 
 class PeliController extends Controller
 {
@@ -45,13 +46,28 @@ class PeliController extends Controller
                             'titulo' => 'required|max:255',
                             'director' => 'required|max:255',
                             'anyo' => 'required|integer',                            
-                            'descatalogada' => 'sometimes'
+                            'descatalogada' => 'sometimes',
+                            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
                         ]);
         
-        $peli = Peli::create($request->all());
+        $datos = $request->only(['titulo', 'director', 'anyo', 'descatalogada']);
+        $datos += ['imagen' => NULL];
 
-        return redirect()->route('pelis.show', $peli->id)
-                    ->with('success', "Película $peli->titulo añadida satisfactoriamente.");
+        // proceso de recuperación de la imagen
+        if($request->hasfile('imagen')) {
+            // sube la imagen al directorio indicado en el fichero de configuración.
+            $ruta = $request->file('imagen')->store(config('filesystems.pelisImageDir'));
+
+            // recoge el nombre del fichero para agregarlo a la BBDD.
+            $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
+        }
+
+        $peli = Peli::create($datos);        
+
+        return redirect()
+                ->route('pelis.show', $peli->id)
+                ->with('success', "Película $peli->titulo añadida satisfactoriamente.")                
+                ->cookie('lastInsertID', $peli->id, 0); // Se agrega una cookie
     }
 
     /**
@@ -89,10 +105,49 @@ class PeliController extends Controller
             'titulo' => 'required|max:255',
             'director' => 'required|max:255',
             'anyo' => 'required|integer',            
-            'descatalogada' => 'sometimes'
+            'descatalogada' => 'sometimes',
+            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
 
-        $peli->update($request->all() + ['descatalogada' => 0]);
+        // recoge los datos del formulario
+        $datos = $request->only('titulo', 'director', 'anyo');
+
+        // comprueba si llega el checkbox y pone 1 o 0 dependiendo de si llega o no.
+        $datos += $request->has('descatalogada') ? ['descatalogada' => 1] : ['descatalogada' => 0];
+
+        // si llega una nueva imagen
+        if($request->hasFile('imagen')) {
+            // marca la imagen antigua para ser borrada si la actualización va bien.
+            if($peli->imagen) {
+                $aBorrar = config('filesystems.pelisImageDir') . '/' . $peli->imagen;
+            }
+
+            // sube la imagen al directorio indicado en el fichero de configuración.
+            $imagenNueva = $request->file('imagen')->store(config('filesystems.pelisImageDir'));
+
+            // toma el nombre del fichero
+            $datos['imagen'] = pathinfo($imagenNueva, PATHINFO_BASENAME);
+        }
+
+        // si solicitan eliminar la imagen
+        if($request->filled('eliminarimagen') && $peli->imagen) {
+            $datos['imagen'] = NULL;
+            $aBorrar = config('filesystems.pelisImageDir') . '/' . $peli->imagen;
+        }
+
+        // el proceso de actualizacion
+        if($peli->update($datos)) {
+            if(isset($aBorrar)) {
+                // borra foto antigua
+                Storage::delete($aBorrar);
+            }        
+        } else { 
+            // si algo falla
+            if(isset($imagenNueva)) {
+                // borra la foto nueva
+                Storage::delete($imagenNueva);
+            }
+        }
 
         return back()->with('success', "Película $peli->titulo actualizada.");
     }
@@ -105,9 +160,13 @@ class PeliController extends Controller
      */
     public function destroy(Peli $peli)
     {
-        $peli->delete();
+        // si consigue eliminar la foto y tiene imagen
+        if($peli->delete() && $peli->imagen) {
+            Storage::delete(config('filesystems.pelisImageDir') . '/' . $peli->imagen);
+        }
 
-        return redirect('pelis')->with('success', "Película $peli->titulo eliminado.");
+        return redirect('pelis')
+                ->with('success', "Película $peli->titulo eliminado.");
     }
 
     // Entrada manual de confirmación de borrado

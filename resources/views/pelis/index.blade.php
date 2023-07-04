@@ -22,6 +22,7 @@
         <table class="table table-striped table-bordered">
             <tr>
                 <th>ID</th>
+                <th>Imagen</th>
                 <th>Titulo</th>
                 <th>Director</th>
                 <th>Año</th>
@@ -30,6 +31,17 @@
             @foreach($pelis as $peli)
                 <tr>
                     <td>{{$peli->id}}</td>
+                    
+                    <td class="text-center" style="max-width: 80px">
+                        <img class="rounded" style="max-width: 80%" 
+                            alt="Imagen de {{$peli->titulo}}" 
+                            title="Imagen de {{$peli->titulo}}"
+                            src="{{$peli->imagen ?
+                                        asset('storage/' . config('filesystems.pelisImageDir')) . '/' . $peli->imagen:
+                                        asset('storage/' . config('filesystems.pelisImageDir')) . '/default.png'
+                                }}">                            
+                    </td>
+
                     <td>{{$peli->titulo}}</td>
                     <td>{{$peli->director}}</td>
                     <td>{{$peli->anyo}}</td>

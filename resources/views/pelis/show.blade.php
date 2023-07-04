@@ -24,6 +24,18 @@
                 <td>Descatalogada</td>
                 <td>{{$peli->descatalogada? 'SI': 'NO'}}</td>
             </tr>
+            <tr>
+                <td>Imagen</td>
+                <td class="text-start">
+                    <img class="rounded" style="max-width: 400px" 
+                        alt="Imagen de {{$peli->titulo}}"
+                        title="Imagen de {{$peli->titulo}}"
+                        src="{{$peli->imagen ?
+                            asset('storage/' . config('filesystems.pelisImageDir')) . '/' . $peli->imagen:
+                            asset('storage/' . config('filesystems.pelisImageDir')) . '/default.png'
+                    }}">
+                </td>
+            </tr>
         </table>
         <div class="text-end my-3">
             <div class="btn-group mx-2">

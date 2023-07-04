@@ -6,6 +6,16 @@
         <form class="my-2 border p-5" method="POST" action="{{URL::signedRoute('pelis.destroy', $peli->id)}}">
             @csrf
             @method('DELETE')
+            <figure>
+                <figcaption>Imagen actual:</figcaption>
+                <img clas="rounded" style="max-width: 400px"
+                    alt="Imagen de {{$peli->titulo}}"
+                    title="Imagen de {{$peli->titulo}}"
+                    src="{{$peli->imagen ?
+                            asset('storage/' . config('filesystems.pelisImageDir')) . '/' . $peli->imagen:
+                            asset('storage/' . config('filesystems.pelisImageDir')) . '/default.png'
+                        }}">
+            </figure>
             <label for="confirmdelete">Confirmar borrado de {{"$peli->titulo"}}:</label>
             <input type="submit" alt="Borrar" title="Borrar" class="btn btn-danger m-4" value="Borrar" id="confirmdelete">
         </form>

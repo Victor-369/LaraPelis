@@ -3,7 +3,7 @@
 @section('titulo', "Actualizar $peli->titulo")
 
 @section('contenido')
-        <form class="my-2 border p-5" method="POST" action="{{route('pelis.update', $peli->id)}}">
+        <form class="my-2 border p-5" method="POST" action="{{route('pelis.update', $peli->id)}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group row">
@@ -24,6 +24,37 @@
                     <label class="form-check-label">Descatalogada</label>
                 </div>
             </div>
+
+            <div class="form-group row my-3">
+                <div class="col-sm-9">
+                    <label for="inputImagen" class="col-sm-2 col-form-label">
+                        {{$peli->imagen ? 'Sustituir' : 'Añadir'}} imagen
+                    </label>
+                    <input name="imagen" type="file" class="form-control-file" id="inputImagen">
+                    @if($peli->imagen)
+                    <div class="form-check my-3">
+                        <input name="eliminarimagen" type="checkbox"
+                                class="form-check-input" id="inputEliminar">
+                        <label for="inputEliminar" class="form-check-label">Eliminar imagen</label>
+                    </div>
+                    <script>
+                        inputEliminar.onchange = function() { inputImagen.disabled = this.checked; }
+                    </script>
+                    @endif
+                </div>
+                <div class="col-sm-3">
+                    <label>Imagen actual:</label>
+                    <img class="rounded img-thumbnail my-3" 
+                        alt="Imagen de {{$peli->titulo}}"
+                        title="Imagen de {{$peli->titulo}}"
+                        src="{{$peli->imagen ?
+                            asset('storage/' . config('filesystems.pelisImageDir')) . '/' . $peli->imagen:
+                            asset('storage/' . config('filesystems.pelisImageDir')) . '/default.png'
+                            }}">
+                </div>
+            </div>
+
+
             <div class="form-group row">
                 <button type="submit" class="btn btn-success m-2 mt-5">Guardar</button>
                 <button type="reset" class="btn btn-secondary m-2">Reestablecer</button>
