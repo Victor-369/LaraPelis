@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PeliController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\ContactoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,11 @@ Route::delete('/pelis/{peli}', [PeliController::class, 'destroy'])
 Route::get('pelis/{peli}/delete', [PeliController::class, 'delete'])
     ->name('pelis.delete');
 
+Route::get('/contacto', [ContactoController::class, 'index'])
+    ->name('contacto');
+
+Route::post('/contacto', [ContactoController::class, 'send'])
+    ->name('contacto.email');
 
 
 // INICIO ZONA DE PRUEBAS

@@ -25,6 +25,9 @@
             <li class="nav-item">
                 <a class="nav-link {{$pagina == 'pelis.create' ? 'active' : ''}}" href="{{route('pelis.create')}}">Nueva película</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{$pagina == 'contacto' ? 'active' : ''}}" href="{{route('contacto')}}">Contacto</a>
+            </li>
         </ul>
     </nav>
     @show
