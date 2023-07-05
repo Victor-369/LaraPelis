@@ -32,7 +32,8 @@
                     accept="application/pdf" id="inputFichero">
             </div>
         </form>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2985.6342614794676!2d2.0553281761769058!3d41.55551558554957!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a493650ae03931%3A0xee4ac6c8e8372532!2sCIFO%20Sabadell-Terrassa!5e0!3m2!1ses!2ses!4v1688574587855!5m2!1ses!2ses" 
+        <iframe class="col"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2985.6342614794676!2d2.0553281761769058!3d41.55551558554957!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a493650ae03931%3A0xee4ac6c8e8372532!2sCIFO%20Sabadell-Terrassa!5e0!3m2!1ses!2ses!4v1688574587855!5m2!1ses!2ses" 
             width="300" height="450" style="border:0;" allowfullscreen="" 
             loading="lazy" referrerpolicy="no-referrer-when-downgrade">
         </iframe>
