@@ -34,11 +34,12 @@ class Contact extends Mailable
                         ->subject('Mensaje recibido:' . $this->mensaje->asunto)
                         ->with('centro', 'CIFO Sabadell')
                         ->view('emails.contact');
-        
+
         // Si hay el fichero se adjunta
         if($this->mensaje->fichero) {
             $email->attach($this->mensaje->fichero, [
-                                                        'as' => 'adjunto_' . uniqid() . '.pdf', // nombre único
+                                                        //'as' => 'adjunto_' . uniqid() . '.pdf', // nombre único
+                                                        'as' => $this->mensaje->ficheroNombre, // nombre original
                                                         'mime' => 'application/pdf',
                                                     ]);
         }
