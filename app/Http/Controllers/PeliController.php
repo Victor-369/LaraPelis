@@ -40,17 +40,28 @@ class PeliController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Peli $peli)
     {
         $request->validate([
                             'titulo' => 'required|max:255',
                             'director' => 'required|max:255',
                             'anyo' => 'required|integer',                            
-                            'descatalogada' => 'sometimes',
+                            //'descatalogada' => 'required_with:isan',
+                            'descatalogada' => 'isan|nullable',
+                            /*
+                            'isan' => "required_if:descatalogada,1|
+                                        nullable|
+                                        regex:/^d{4}[B-Z]{3}$/i|
+                                        unique:pelis,isan,$peli->id",
+                            */
+                            'isan' => "required_if:descatalogada,1|
+                                        nullable|
+                                        regex:/[B-Z]/|
+                                        unique:pelis,isan,$peli->id",
                             'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
                         ]);
         
-        $datos = $request->only(['titulo', 'director', 'anyo', 'descatalogada']);
+        $datos = $request->only(['titulo', 'director', 'anyo', 'descatalogada', 'isan', 'color']);
         $datos += ['imagen' => NULL];
 
         // proceso de recuperación de la imagen
@@ -62,7 +73,7 @@ class PeliController extends Controller
             $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
         }
 
-        $peli = Peli::create($datos);        
+        $peli = Peli::create($datos);
 
         return redirect()
                 ->route('pelis.show', $peli->id)
@@ -105,15 +116,31 @@ class PeliController extends Controller
             'titulo' => 'required|max:255',
             'director' => 'required|max:255',
             'anyo' => 'required|integer',            
-            'descatalogada' => 'sometimes',
+            //'descatalogada' => 'required_with:isan',
+            'descatalogada' => 'isan|nullable',
+            /*
+            'isan' => "required_if:descatalogada,1|
+                        nullable|
+                        regex:/^d{4}[B-Z]{3}$/i|
+                        unique:pelis,isan,$peli->id",
+            */
+            'isan' => "required_if:descatalogada,1|
+                        nullable|
+                        regex:/[B-Z]/|
+                        unique:pelis,isan,$peli->id",
             'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
 
         // recoge los datos del formulario
         $datos = $request->only('titulo', 'director', 'anyo');
 
+        // no se puede tomar directamente
+        $datos['descatalogada'] = $request->has('descatalogada') ? 1 : 0;
+        $datos['isan'] = $request->has('descatalogada') ? NULL : $request->input('isan');
+        $datos['color'] = $request->input('color') ?? NULL;
+
         // comprueba si llega el checkbox y pone 1 o 0 dependiendo de si llega o no.
-        $datos += $request->has('descatalogada') ? ['descatalogada' => 1] : ['descatalogada' => 0];
+        //$datos += $request->has('descatalogada') ? ['descatalogada' => 1] : ['descatalogada' => 0];
 
         // si llega una nueva imagen
         if($request->hasFile('imagen')) {

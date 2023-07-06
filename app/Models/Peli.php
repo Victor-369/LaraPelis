@@ -10,5 +10,6 @@ class Peli extends Model
     use HasFactory;
 
     //protected $table = '';
-    protected $fillable = ['titulo', 'director', 'anyo', 'imagen', 'descatalogada'];
+    protected $fillable = ['titulo', 'director', 'anyo', 'imagen', 'descatalogada'
+                            ,'isan', 'color'];
 }

@@ -26,6 +26,8 @@
                 <th>Titulo</th>
                 <th>Director</th>
                 <th>Año</th>
+                <th>ISAN</th>
+                <th>Color</th>
                 <th>Descatalogada</th>
             </tr>
             @foreach($pelis as $peli)
@@ -45,6 +47,9 @@
                     <td>{{$peli->titulo}}</td>
                     <td>{{$peli->director}}</td>
                     <td>{{$peli->anyo}}</td>
+                    <td>{{$peli->isan}}</td>
+                    <td style="background-color:{{$peli->color}}">{{$peli->color}}</td>
+
                     <td>{{$peli->descatalogada? 'SI': 'NO'}}</td>
                     <td class="text-center p-0">
                         <a class="btn btn-success" href="{{route('pelis.show', $peli->id)}}">

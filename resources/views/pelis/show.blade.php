@@ -19,11 +19,23 @@
             <tr>
                 <td>Año</td>
                 <td>{{$peli->anyo}}</td>
-            </tr>            
+            </tr>
             <tr>
                 <td>Descatalogada</td>
                 <td>{{$peli->descatalogada? 'SI': 'NO'}}</td>
             </tr>
+            @if(!$peli->descatalogada)
+                <tr>
+                    <td>ISAN</td>
+                    <td>{{$peli->isan}}</td>
+                </tr>
+            @endif
+            @if($peli->color)
+                <tr>
+                    <td>Color</td>
+                    <td style="background-color:{{$peli->color}}">{{$peli->color}}</td>
+                </tr>
+            @endif
             <tr>
                 <td>Imagen</td>
                 <td class="text-start">
