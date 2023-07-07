@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Peli;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Peli;
+use App\Http\Requests\PeliRequest;
+
 
 class PeliController extends Controller
 {
@@ -40,34 +42,37 @@ class PeliController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Peli $peli)
+    public function store(/*Request $request,*/ PeliRequest $pr, Peli $peli)
     {
+        /*
         $request->validate([
                             'titulo' => 'required|max:255',
                             'director' => 'required|max:255',
                             'anyo' => 'required|integer',                            
                             //'descatalogada' => 'required_with:isan',
                             'descatalogada' => 'isan|nullable',
-                            /*
-                            'isan' => "required_if:descatalogada,1|
-                                        nullable|
-                                        regex:/^d{4}[B-Z]{3}$/i|
-                                        unique:pelis,isan,$peli->id",
-                            */
+                            
+                            // 'isan' => "required_if:descatalogada,1|
+                            //             nullable|
+                            //             regex:/^d{4}[B-Z]{3}$/i|
+                            //             unique:pelis,isan,$peli->id",
+                            
                             'isan' => "required_if:descatalogada,1|
                                         nullable|
                                         regex:/[B-Z]/|
                                         unique:pelis,isan,$peli->id",
                             'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
                         ]);
+        */
         
-        $datos = $request->only(['titulo', 'director', 'anyo', 'descatalogada', 'isan', 'color']);
+        //$datos = $request->only(['titulo', 'director', 'anyo', 'descatalogada', 'isan', 'color']);
+        $datos = $pr->only(['titulo', 'director', 'anyo', 'descatalogada', 'isan', 'color']);
         $datos += ['imagen' => NULL];
 
         // proceso de recuperación de la imagen
-        if($request->hasfile('imagen')) {
+        if($pr->hasfile('imagen')) {
             // sube la imagen al directorio indicado en el fichero de configuración.
-            $ruta = $request->file('imagen')->store(config('filesystems.pelisImageDir'));
+            $ruta = $pr->file('imagen')->store(config('filesystems.pelisImageDir'));
 
             // recoge el nombre del fichero para agregarlo a la BBDD.
             $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
