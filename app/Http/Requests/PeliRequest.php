@@ -37,4 +37,14 @@ class PeliRequest extends FormRequest
                 'imagen'    => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
             ];
     }
+
+    public function message() {
+        return [            
+            'isan.regex' => "El ISAN debe tener el formato número|número|letra|número|número (NNANN)",
+            'color.regex' => "El color debe estar en formato RGB HEX, comezando por #",
+            'anyo' => "El año debe ser mayor que 1900",
+            'imagen.image' => "El fichero debe ser una imagen",
+            'imagen.mimes' => "La imagen debe ser de tipo jpg, png, gif o webp",
+        ];
+    }
 }

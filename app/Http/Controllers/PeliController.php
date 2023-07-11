@@ -10,6 +10,11 @@ use App\Http\Requests\PeliRequest;
 
 class PeliController extends Controller
 {
+    public function __construct() {
+        // middleware auth a todo excepto:
+        $this->middleware('auth')->except('index','show','search');
+    }
+
     /**
      * Display a listing of the resource.
      *
