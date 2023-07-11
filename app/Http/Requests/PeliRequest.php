@@ -32,17 +32,17 @@ class PeliRequest extends FormRequest
                 'descatalogada' => 'isan|nullable',
                 'isan'      => "required_if:descatalogada,1|
                                 nullable|
-                                regex:/[B-Z]/|
+                                regex:/[A-Z]/|
                                 unique:pelis,isan",
                 'imagen'    => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
             ];
     }
 
-    public function message() {
+    public function messages() {
         return [            
-            'isan.regex' => "El ISAN debe tener el formato número|número|letra|número|número (NNANN)",
+            'isan.regex' => "El ISAN debe tener el formato texto",
             'color.regex' => "El color debe estar en formato RGB HEX, comezando por #",
-            'anyo' => "El año debe ser mayor que 1900",
+            'anyo.number' => "El año debe ser mayor que 1900",
             'imagen.image' => "El fichero debe ser una imagen",
             'imagen.mimes' => "La imagen debe ser de tipo jpg, png, gif o webp",
         ];
