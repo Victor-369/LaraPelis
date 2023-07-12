@@ -68,7 +68,8 @@ Route::get('/contacto', [ContactoController::class, 'index'])
 Route::post('/contacto', [ContactoController::class, 'send'])
     ->name('contacto.email');
 
-Auth::routes();
+// Autenticación
+Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

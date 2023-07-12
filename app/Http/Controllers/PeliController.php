@@ -12,7 +12,8 @@ class PeliController extends Controller
 {
     public function __construct() {
         // middleware a todo excepto:
-        $this->middleware('auth')->except('index','show','search');
+        //$this->middleware('auth')->except('index','show','search');
+        $this->middleware('verified')->except('index','show','search');
         $this->middleware('adulto')->except('index','show','search');
     }
 
