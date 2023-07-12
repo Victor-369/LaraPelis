@@ -25,6 +25,55 @@
                             </div>
                         </div>
 
+
+
+                        <div class="row mb-3">
+                            <label for="poblacion" class="col-md-4 col-form-label text-md-end">{{ __('Población') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="poblacion" type="text" class="form-control @error('poblacion') is-invalid @enderror" name="poblacion" value="{{ old('poblacion') }}" required autocomplete="poblacion" autofocus>
+
+                                @error('poblacion')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="cp" class="col-md-4 col-form-label text-md-end">{{ __('Código Postal') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="cp" type="number" class="form-control" lenght="5" @error('cp') is-invalid @enderror" name="cp" value="{{ old('cp') }}" required autocomplete="cp" autofocus>
+
+                                @error('cp')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="fechanacimiento" class="col-md-4 col-form-label text-md-end">{{ __('Fecha Nacimiento') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="fechanacimiento" type="date" class="form-control" lenght="5" @error('fechanacimiento') is-invalid @enderror" name="fechanacimiento" value="{{ old('fechanacimiento') }}" required autocomplete="fechanacimiento" autofocus>
+
+                                @error('fechanacimiento')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
+
+
+
+
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 

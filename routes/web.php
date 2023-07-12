@@ -38,6 +38,7 @@ Route::get('/pelis', [PeliController::class, 'index'])
 
 Route::get('/pelis/create', [PeliController::class, 'create'])
     ->name('pelis.create');
+    //->middleware('auth', 'throttle:3,1') // crear tres películas por minuto
 
 Route::get('/pelis/{peli}', [PeliController::class, 'show'])
     ->name('pelis.show');

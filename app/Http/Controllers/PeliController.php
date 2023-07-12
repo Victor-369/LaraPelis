@@ -11,8 +11,9 @@ use App\Http\Requests\PeliRequest;
 class PeliController extends Controller
 {
     public function __construct() {
-        // middleware auth a todo excepto:
+        // middleware a todo excepto:
         $this->middleware('auth')->except('index','show','search');
+        $this->middleware('adulto')->except('index','show','search');
     }
 
     /**
