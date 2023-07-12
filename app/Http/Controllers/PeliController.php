@@ -15,6 +15,8 @@ class PeliController extends Controller
         //$this->middleware('auth')->except('index','show','search');
         $this->middleware('verified')->except('index','show','search');
         $this->middleware('adulto')->except('index','show','search');
+        // pide confirmación de borrado cuando la sesión haya finalizado
+        $this->middleware('password.confirm')->only('destroy');
     }
 
     /**
