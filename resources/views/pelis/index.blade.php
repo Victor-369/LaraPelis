@@ -55,14 +55,16 @@
                         <a class="btn btn-success" href="{{route('pelis.show', $peli->id)}}">
                             <img heigh="20" width="20" src="{{asset('images/buttons/show.svg')}}" alt="Detalles" title="Detalles">
                         </a>
-                        @auth
-                        <a class="btn btn-warning" href="{{route('pelis.edit', $peli->id)}}">
-                            <img heigh="20" width="20" src="{{asset('images/buttons/update.svg')}}" alt="Modificar" title="Modificar">
-                        </a>
-                        <a class="btn btn-danger" href="{{route('pelis.delete', $peli->id)}}">
-                            <img heigh="20" width="20" src="{{asset('images/buttons/delete.svg')}}" alt="Borrar" title="Borrar">
-                        </a>
-                        @endauth
+                        @can('update', $peli)
+                            <a class="btn btn-warning" href="{{route('pelis.edit', $peli->id)}}">
+                                <img heigh="20" width="20" src="{{asset('images/buttons/update.svg')}}" alt="Modificar" title="Modificar">
+                            </a>
+                        @endcan
+                        @can('delete', $peli)
+                            <a class="btn btn-danger" href="{{route('pelis.delete', $peli->id)}}">
+                                <img heigh="20" width="20" src="{{asset('images/buttons/delete.svg')}}" alt="Borrar" title="Borrar">
+                            </a>
+                        @endcan                        
                     </td>
                 </tr>
             @endforeach

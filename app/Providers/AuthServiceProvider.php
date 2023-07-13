@@ -16,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Peli' => 'App\Policies\PeliPolicy',
     ];
 
     /**
@@ -38,9 +39,9 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // gate para autorizar el borrado de una película (luego se cambiará por policies)
-        Gate::define('borrarPeli', function ($user, $peli) {
-            return $user->id == $peli->user_id 
-                    || $user->email == 'admin@larapelis.com';
-        });
+        // Gate::define('borrarPeli', function ($user, $peli) {
+        //     return $user->id == $peli->user_id 
+        //             || $user->email == 'admin@larapelis.com';
+        // });
     }
 }

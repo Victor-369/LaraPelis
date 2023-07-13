@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Peli;
 use App\Http\Requests\PeliRequest;
-use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\PeliUpdateRequest;
+use App\Http\Requests\PeliDeleteRequest;
+use App\Http\Requests\PeliDestroyRequest;
+//use Illuminate\Support\Facades\Gate;
 
 
 class PeliController extends Controller
@@ -107,27 +110,8 @@ class PeliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Peli $peli)
+    public function update(PeliUpdateRequest $request, Peli $peli)
     {
-        $request->validate([
-            'titulo' => 'required|max:255',
-            'director' => 'required|max:255',
-            'anyo' => 'required|integer',            
-            //'descatalogada' => 'required_with:isan',
-            'descatalogada' => 'isan|nullable',
-            /*
-            'isan' => "required_if:descatalogada,1|
-                        nullable|
-                        regex:/^d{4}[B-Z]{3}$/i|
-                        unique:pelis,isan,$peli->id",
-            */
-            'isan' => "required_if:descatalogada,1|
-                        nullable|
-                        regex:/[B-Z]/|
-                        unique:pelis,isan,$peli->id",
-            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
-        ]);
-
         // recoge los datos del formulario
         $datos = $request->only('titulo', 'director', 'anyo');
 
@@ -135,9 +119,6 @@ class PeliController extends Controller
         $datos['descatalogada'] = $request->has('descatalogada') ? 1 : 0;
         $datos['isan'] = $request->has('descatalogada') ? NULL : $request->input('isan');
         $datos['color'] = $request->input('color') ?? NULL;
-
-        // comprueba si llega el checkbox y pone 1 o 0 dependiendo de si llega o no.
-        //$datos += $request->has('descatalogada') ? ['descatalogada' => 1] : ['descatalogada' => 0];
 
         // si llega una nueva imagen
         if($request->hasFile('imagen')) {
@@ -182,12 +163,12 @@ class PeliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Peli $peli)
+    public function destroy(PeliDestroyRequest $request, Peli $peli)
     {
-        // autorización mediante gate (luego se cambiará por policies)
-        if(Gate::denies('borrarPeli', $peli)) {
-            abort(401, "No puedes borrar una película que no es tuya.");
-        }
+        // autorización mediante policies
+        // if($request->user()->cant('delete', $peli)) {
+        //     abort(401, "No puedes borrar una película que no es tuya.");
+        // }
 
         // si consigue eliminar la foto y tiene imagen
         if($peli->delete() && $peli->imagen) {
@@ -199,12 +180,12 @@ class PeliController extends Controller
     }
 
     // Entrada manual de confirmación de borrado
-    public function delete(Peli $peli)
+    public function delete(PeliDeleteRequest $request, Peli $peli)
     {
-        // autorización mediante gate (luego se cambiará por policies)
-        if(Gate::denies('borrarPeli', $peli)) {
-            abort(401, "No puedes borrar una película que no es tuya.");
-        }
+        // autorización mediante policies
+        // if($request->user()->cant('delete', $peli)) {
+        //     abort(401, "No puedes borrar una película que no es tuya.");
+        // }
 
         // Vista de confirmación de eliminación
         return view('pelis.delete', ['peli' => $peli]);
