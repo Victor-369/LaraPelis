@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Peli;
 use App\Http\Requests\PeliRequest;
+use Illuminate\Support\Facades\Gate;
 
 
 class PeliController extends Controller
@@ -183,6 +184,11 @@ class PeliController extends Controller
      */
     public function destroy(Peli $peli)
     {
+        // autorización mediante gate (luego se cambiará por policies)
+        if(Gate::denies('borrarPeli', $peli)) {
+            abort(401, "No puedes borrar una película que no es tuya.");
+        }
+
         // si consigue eliminar la foto y tiene imagen
         if($peli->delete() && $peli->imagen) {
             Storage::delete(config('filesystems.pelisImageDir') . '/' . $peli->imagen);
@@ -195,6 +201,12 @@ class PeliController extends Controller
     // Entrada manual de confirmación de borrado
     public function delete(Peli $peli)
     {
+        // autorización mediante gate (luego se cambiará por policies)
+        if(Gate::denies('borrarPeli', $peli)) {
+            abort(401, "No puedes borrar una película que no es tuya.");
+        }
+
+        // Vista de confirmación de eliminación
         return view('pelis.delete', ['peli' => $peli]);
     }
 

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Notifications\VerifyEmail;
+
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,20 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        //traducción del email de validación
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new MailMessage)
+                        ->subject('Verificar email')
+                        ->greeting('Hola')
+                        ->salutation('Un saludo')
+                        ->line('Haz clic en la siguiente línea para verificar tu email.')
+                        ->action('Verificar email', $url);
+        });
+
+        // gate para autorizar el borrado de una película (luego se cambiará por policies)
+        Gate::define('borrarPeli', function ($user, $peli) {
+            return $user->id == $peli->user_id 
+                    || $user->email == 'admin@larapelis.com';
+        });
     }
 }
