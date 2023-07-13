@@ -53,27 +53,6 @@ class PeliController extends Controller
      */
     public function store(/*Request $request,*/ PeliRequest $pr, Peli $peli)
     {
-        /*
-        $request->validate([
-                            'titulo' => 'required|max:255',
-                            'director' => 'required|max:255',
-                            'anyo' => 'required|integer',                            
-                            //'descatalogada' => 'required_with:isan',
-                            'descatalogada' => 'isan|nullable',
-                            
-                            // 'isan' => "required_if:descatalogada,1|
-                            //             nullable|
-                            //             regex:/^d{4}[B-Z]{3}$/i|
-                            //             unique:pelis,isan,$peli->id",
-                            
-                            'isan' => "required_if:descatalogada,1|
-                                        nullable|
-                                        regex:/[B-Z]/|
-                                        unique:pelis,isan,$peli->id",
-                            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
-                        ]);
-        */
-        
         //$datos = $request->only(['titulo', 'director', 'anyo', 'descatalogada', 'isan', 'color']);
         $datos = $pr->only(['titulo', 'director', 'anyo', 'descatalogada', 'isan', 'color']);
         $datos += ['imagen' => NULL];
@@ -86,6 +65,9 @@ class PeliController extends Controller
             // recoge el nombre del fichero para agregarlo a la BBDD.
             $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
         }
+
+        // recupera el id del usuario y lo guarda con los datos de la película.
+        $datos['user_id'] = $pr->user()->id;
 
         $peli = Peli::create($datos);
 
