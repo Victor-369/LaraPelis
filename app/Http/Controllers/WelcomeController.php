@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Welcome;
+use App\Models\Peli;
 
 class WelcomeController extends Controller
 {
@@ -14,7 +15,10 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        return view('welcome', []);
+        // recupera las tres últimas películas introducidas
+        $pelis = Peli::latest()->take(3)->get();
+        
+        return view('welcome', ['pelis' => $pelis]);
     }
 
     /**

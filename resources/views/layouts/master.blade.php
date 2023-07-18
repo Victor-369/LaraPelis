@@ -97,6 +97,7 @@
         @endif
 
         @yield('contenido')
+        @yield('ultimasPelis')
 
         <div class="btn-group" role="group" aria-label="Links">
             @section('enlaces')
