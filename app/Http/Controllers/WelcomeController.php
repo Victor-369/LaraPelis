@@ -16,7 +16,10 @@ class WelcomeController extends Controller
     public function index()
     {
         // recupera las tres últimas películas introducidas
-        $pelis = Peli::latest()->take(3)->get();
+        $pelis = Peli::whereNotNull('imagen')
+                    ->latest()
+                    ->take(3)
+                    ->get();
         
         return view('welcome', ['pelis' => $pelis]);
     }
