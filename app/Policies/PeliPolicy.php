@@ -53,7 +53,9 @@ class PeliPolicy
      */
     public function update(User $user, Peli $peli)
     {
-        return $user->id == $peli->user_id || $user->email == 'admin@larapelis.com';
+        // si el usuario es el creador del registro es o tiene uno de los roles
+        return $user->isOwner($peli) || 
+                $user->hasRole(['editor', 'administrador', 'todopoderoso']);
     }
 
     /**
@@ -65,7 +67,9 @@ class PeliPolicy
      */
     public function delete(User $user, Peli $peli)
     {
-        return $user->id == $peli->user_id || $user->email == 'admin@larapelis.com';
+        // true si el usuario es el creador del registro o tiene uno de los roles
+        return $user->isOwner($peli) ||
+                $user->hasRole(['administrador', 'todopoderoso']);
     }
 
     /**
