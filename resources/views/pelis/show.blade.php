@@ -24,6 +24,10 @@
                 <td>Descatalogada</td>
                 <td>{{$peli->descatalogada? 'SI': 'NO'}}</td>
             </tr>
+            <tr>
+                <td>Propietario</td>
+                <td>{{$peli->user ? $peli->user->name : 'Sin propietario'}}</td>
+            </tr>
             @if(!$peli->descatalogada)
                 <tr>
                     <td>ISAN</td>

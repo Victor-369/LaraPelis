@@ -43,4 +43,10 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // recupera todas las películas relacionadas con el usuario
+    // relación 1 a N con hasMany()
+    public function pelis() {
+        return $this->hasMany('\App\Models\Peli');
+    }
 }
