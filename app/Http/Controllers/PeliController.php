@@ -165,28 +165,17 @@ class PeliController extends Controller
      */
     public function destroy(PeliDestroyRequest $request, Peli $peli)
     {
-        // autorización mediante policies
-        // if($request->user()->cant('delete', $peli)) {
-        //     abort(401, "No puedes borrar una película que no es tuya.");
-        // }
+        // soft delete (no se puede borrar la imagen aún)
+        $peli->delete();
 
-        // si consigue eliminar la foto y tiene imagen
-        if($peli->delete() && $peli->imagen) {
-            Storage::delete(config('filesystems.pelisImageDir') . '/' . $peli->imagen);
-        }
-
-        return redirect('pelis')
+        //return redirect('pelis')
+        return redirect('pelis.index')
                 ->with('success', "Película $peli->titulo eliminado.");
     }
 
     // Entrada manual de confirmación de borrado
     public function delete(PeliDeleteRequest $request, Peli $peli)
     {
-        // autorización mediante policies
-        // if($request->user()->cant('delete', $peli)) {
-        //     abort(401, "No puedes borrar una película que no es tuya.");
-        // }
-
         // Vista de confirmación de eliminación
         return view('pelis.delete', ['peli' => $peli]);
     }
@@ -212,5 +201,38 @@ class PeliController extends Controller
         return view('pelis.index', ['pelis' => $pelis
                                     ,'titulo' => $titulo
                                     ,'director' => $director]);
+    }
+
+    public function restore(Request $request, int $id) {
+        // recupera la película borrada
+        $peli = Peli::withTrashed()->findOrFail($id);
+
+        // comprueba los permisos mediante la policy
+        if($request->user()->cant('restore', $peli)) {
+            throw new AuthorizationException('No tienes permiso');
+        } else {
+            // restaura la película
+            $peli->restore();
+        }
+
+        return back()->with('success', "Película $peli->titulo restaurada correctamente.");
+    }
+
+    public function purge(Request $request) {
+        // recupera la película borrada
+        $peli = Peli::withTrashed()->findOrFail($request->input('peli_id'));
+
+        // comprueba los permisos mediante la policy
+        if($request->user()->cant('delete', $peli)) {
+            throw new AuthorizationException('No tienes permiso');
+        }
+
+        // si borra la película y esta tiene foto...
+        if($peli->forceDelete() && $peli->imagen) {
+            // borra la foto
+            Storage::delete(config('filesystems.pelisImageDir'). '/' . $peli->imagen);
+        }
+
+        return back()->with('success', "Película $peli->titulo eliminada definitivamente.");
     }
 }

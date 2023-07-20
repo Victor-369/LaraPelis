@@ -32,7 +32,7 @@ Route::get('/', [WelcomeController::class, 'index'])->name('portada');
 // CRUD de Pelis
 // Route::resource('pelis', PeliController::class);
 
-// Se agrega el middleware "adulto" para editar, crear y borrar. De esta manera no podrá modificar datos.
+// Se agrega el middleware "adulto" para evita editar, crear y borrar. De esta manera no podrá modificar datos un menor de edad.
 Route::get('/pelis', [PeliController::class, 'index'])
     ->name('pelis.index');
 
@@ -53,6 +53,18 @@ Route::get('/pelis/{peli}/edit', [PeliController::class, 'edit'])
 Route::match(['PUT', 'PATCH'], '/pelis/{peli}', [PeliController::class, 'update'])
     ->name('pelis.update')
     /*->middleware('prohibido')*/;
+
+
+// eliminación definitiva de la película
+// va por DELETE por:
+// - coherencia con las operaciones delete en Laravel
+// - evita los borrados accidentales
+Route::delete('/pelis/purge', [PeliController::class, 'purge'])
+    ->name('pelis.purge');
+
+// restauración de la película
+Route::get('/pelis/{peli}/restore', [PeliController::class, 'restore'])
+    ->name('pelis.restore');
 
 Route::delete('/pelis/{peli}', [PeliController::class, 'destroy'])
     ->name('pelis.destroy')

@@ -25,8 +25,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $pelis = $request->user()->hasMany('\App\Models\Peli')->paginate(10);
+        //$pelis = $request->user()->hasMany('\App\Models\Peli')->paginate(10);
+
+        // recupera las películas no borradas del usuario
+        $pelis = $request->user()->pelis()->paginate(config('pagination.pelis', 10));
+
+        // recupera las pelíiculas borradas del usuario.
+        $deletedPelis = $request->user()->pelis()->onlyTrashed()->get();
         
-        return view('home', ['pelis' => $pelis]);
+        return view('home', ['pelis' => $pelis,
+                            'deletedPelis' => $deletedPelis]);
     }
 }

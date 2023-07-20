@@ -81,7 +81,8 @@ class PeliPolicy
      */
     public function restore(User $user, Peli $peli)
     {
-        //
+        return $user->isOwner($peli) ||
+                $user->hasRole(['administrador', 'todopoderoso']);
     }
 
     /**
