@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PeliController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +34,10 @@ Route::delete('/pelis/purge', [PeliController::class, 'purge'])
 // restauración de la película
 Route::get('/pelis/{peli}/restore', [PeliController::class, 'restore'])
     ->name('pelis.restore');
+
+
+// ruta de usuarios bloqueados
+Route::get('/bloqueado', [UserController::class, 'blocked'])->name('user.blocked');
 
 // Para buscar pelis por título y/o director
 // Vigilar con solapamiento de rutas
@@ -79,7 +85,33 @@ Route::get('/contacto', [ContactoController::class, 'index'])
 Route::post('/contacto', [ContactoController::class, 'send'])
     ->name('contacto.email');
 
+// group de rutas para el administrador. Llevan el prefijo "admin"
+Route::prefix('admin')->middleware('auth', 'is_admin')->group(function() {
 
+    // ver las películas eliminadas (/admin/deletedpelis)
+    Route::get('deletedpelis', [AdminController::class, 'deletedPelis'])
+        ->name('admin.deleted.pelis');
+    
+    // detalle de un usuario
+    Route::get('usuario/{user}/detalles', [AdminController::class, 'userShow'])
+        ->name('admin.user.show');
+    
+    // listado de usuarios
+    Route::get('usuarios', [AdminController::class, 'userList'])
+        ->name('admin.users');
+    
+    // búsqueda de usuarios
+    Route::get('usuario/buscar', [AdminController::class, 'userSearch'])
+        ->name('admin.users.search');
+    
+    // añade rol
+    Route::post('role', [AdminController::class, 'setRole'])
+        ->name('admin.user.setRole');
+    
+    // Elimina rol
+    Route::delete('role', [AdminController::class, 'removeRole'])
+        ->name('admin.user.removeRole');
+});
 
 
 

@@ -42,6 +42,9 @@ class Kernel extends HttpKernel
             // \App\Http\Middleware\VerifyCsrfToken::class,
             
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            
+            //personalizado
+            \App\Http\Middleware\IsBlocked::class,
         ],
 
         'api' => [
@@ -70,5 +73,6 @@ class Kernel extends HttpKernel
         //Personalizado
         'prohibido' => \App\Http\Middleware\Prohibido::class,
         'adulto' => \App\Http\Middleware\Adulto::class,
+        'is_admin' => \App\Http\Middleware\IsAdmin::class,
     ];
 }
