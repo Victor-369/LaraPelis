@@ -22,6 +22,16 @@ use App\Http\Controllers\ContactoController;
 //     return view('welcome');
 // });
 
+// eliminación definitiva de la película
+// va por DELETE por:
+// - coherencia con las operaciones delete en Laravel
+// - evita los borrados accidentales
+Route::delete('/pelis/purge', [PeliController::class, 'purge'])
+    ->name('pelis.purge');
+
+// restauración de la película
+Route::get('/pelis/{peli}/restore', [PeliController::class, 'restore'])
+    ->name('pelis.restore');
 
 // Para buscar pelis por título y/o director
 // Vigilar con solapamiento de rutas
@@ -71,16 +81,6 @@ Route::post('/contacto', [ContactoController::class, 'send'])
 
 
 
-// eliminación definitiva de la película
-// va por DELETE por:
-// - coherencia con las operaciones delete en Laravel
-// - evita los borrados accidentales
-Route::delete('/pelis/purge', [PeliController::class, 'purge'])
-    ->name('pelis.purge');
-
-// restauración de la película
-Route::get('/pelis/{peli}/restore', [PeliController::class, 'restore'])
-    ->name('pelis.restore');
 
 
 // Autenticación
