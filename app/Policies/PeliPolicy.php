@@ -96,4 +96,12 @@ class PeliPolicy
     {
         //
     }
+
+    public function destroy(User $user, Peli $peli)
+    {
+        // true si el usuario es el creador del registro o tiene uno de los roles
+        return $user->isOwner($peli) ||
+                $user->hasRole(['administrador', 'todopoderoso']);
+    }
+
 }

@@ -55,17 +55,6 @@ Route::match(['PUT', 'PATCH'], '/pelis/{peli}', [PeliController::class, 'update'
     /*->middleware('prohibido')*/;
 
 
-// eliminación definitiva de la película
-// va por DELETE por:
-// - coherencia con las operaciones delete en Laravel
-// - evita los borrados accidentales
-Route::delete('/pelis/purge', [PeliController::class, 'purge'])
-    ->name('pelis.purge');
-
-// restauración de la película
-Route::get('/pelis/{peli}/restore', [PeliController::class, 'restore'])
-    ->name('pelis.restore');
-
 Route::delete('/pelis/{peli}', [PeliController::class, 'destroy'])
     ->name('pelis.destroy')
     ->middleware('signed');
@@ -79,6 +68,20 @@ Route::get('/contacto', [ContactoController::class, 'index'])
 
 Route::post('/contacto', [ContactoController::class, 'send'])
     ->name('contacto.email');
+
+
+
+// eliminación definitiva de la película
+// va por DELETE por:
+// - coherencia con las operaciones delete en Laravel
+// - evita los borrados accidentales
+Route::delete('/pelis/purge', [PeliController::class, 'purge'])
+    ->name('pelis.purge');
+
+// restauración de la película
+Route::get('/pelis/{peli}/restore', [PeliController::class, 'restore'])
+    ->name('pelis.restore');
+
 
 // Autenticación
 Auth::routes(['verify' => true]);
