@@ -24,6 +24,9 @@ use App\Http\Controllers\UserController;
 //     return view('welcome');
 // });
 
+Route::get('/pelis', [PeliController::class, 'index'])
+    ->name('pelis.index');
+
 // eliminación definitiva de la película
 // va por DELETE por:
 // - coherencia con las operaciones delete en Laravel
@@ -34,7 +37,6 @@ Route::delete('/pelis/purge', [PeliController::class, 'purge'])
 // restauración de la película
 Route::get('/pelis/{peli}/restore', [PeliController::class, 'restore'])
     ->name('pelis.restore');
-
 
 // ruta de usuarios bloqueados
 Route::get('/bloqueado', [UserController::class, 'blocked'])->name('user.blocked');
@@ -49,8 +51,7 @@ Route::get('/', [WelcomeController::class, 'index'])->name('portada');
 // Route::resource('pelis', PeliController::class);
 
 // Se agrega el middleware "adulto" para evita editar, crear y borrar. De esta manera no podrá modificar datos un menor de edad.
-Route::get('/pelis', [PeliController::class, 'index'])
-    ->name('pelis.index');
+
 
 Route::get('/pelis/create', [PeliController::class, 'create'])
     ->name('pelis.create');

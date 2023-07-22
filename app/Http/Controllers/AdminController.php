@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Peli;
+use App\Models\User;
+use App\Models\Role;
+
 
 class AdminController extends Controller
 {
@@ -46,7 +50,9 @@ class AdminController extends Controller
     // añadir rol a usuario
     public function setRole(Request $request) {
         $role = Role::find($request->input('role_id'));
-        $user = Role::find($request->input('user_id'));
+        //$user = Role::find($request->input('user_id'));
+
+        $user = User::where('id', $request->user_id)->first();
 
         // intenta añadir el rol
         try {
@@ -63,7 +69,9 @@ class AdminController extends Controller
 
     public function removeRole(Request $request) {
         $role = Role::find($request->input('role_id'));
-        $user = Role::find($request->input('user_id'));
+        //$user = Role::find($request->input('user_id'));
+        
+        $user = User::where('id', $request->user_id)->first();
 
         // intenta quitar el rol
         try {

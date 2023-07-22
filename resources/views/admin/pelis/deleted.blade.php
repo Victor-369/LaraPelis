@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('layouts.master')
 @section('contenido')
 <div class="container">
     <h3 class="mt-4">Motos borradas</h3>
