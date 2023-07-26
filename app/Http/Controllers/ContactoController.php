@@ -25,7 +25,7 @@ class ContactoController extends Controller
         $mensaje->mensaje = $request->mensaje;
 
         $mensaje->fichero = $request->hasFile('fichero') ? $request->file('fichero')->getRealPath() : NULL;
-        $mensaje->ficheroNombre = $request->file('fichero')->getClientOriginalName(); // nombre original del fichero adjunto
+        //$mensaje->ficheroNombre = $request->file('fichero')->getClientOriginalName(); // nombre original del fichero adjunto
 
         Mail::to('contacto@LaraPelis.com')->send(new Contact($mensaje));
 
