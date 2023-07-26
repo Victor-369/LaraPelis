@@ -9,6 +9,7 @@ use App\Http\Requests\PeliRequest;
 use App\Http\Requests\PeliUpdateRequest;
 use App\Http\Requests\PeliDeleteRequest;
 use App\Http\Requests\PeliDestroyRequest;
+use App\Events\FirstPeliCreated;
 //use Illuminate\Support\Facades\Gate;
 
 
@@ -74,6 +75,12 @@ class PeliController extends Controller
         $datos['user_id'] = $pr->user()->id;
 
         $peli = Peli::create($datos);
+
+        // Si es la primera vez que el usuario crea una película.
+        // Mejor hacerlo con un campo de la BBDD.
+        if($pr->user()->pelis->count() == 1) {
+            FirstPeliCreated::dispatch($peli, $pr->user());
+        }
 
         return redirect()
                 ->route('pelis.show', $peli->id)
@@ -169,7 +176,7 @@ class PeliController extends Controller
         $peli->delete();
 
         //return redirect('pelis')
-        return redirect('pelis.index')
+        return redirect()->route('pelis.index')
                 ->with('success', "Película $peli->titulo eliminado.");
     }
 
