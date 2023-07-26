@@ -11,6 +11,8 @@ use App\Http\Requests\PeliDeleteRequest;
 use App\Http\Requests\PeliDestroyRequest;
 use App\Events\FirstPeliCreated;
 //use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 
 class PeliController extends Controller
@@ -175,6 +177,18 @@ class PeliController extends Controller
         // soft delete (no se puede borrar la imagen aún)
         $peli->delete();
 
+        // comprueba si hay que retornar a algún sitio concreto
+        // en caso contrario irá a la lista de películas (ruta por defecto)
+        $redirect = Session::has('returnTo') ?
+                                redirect(Session::get('returnTo')) :    // por URL
+                                redirect()->route('pelis.index');       // por nombre de ruta
+
+        // se usará la URL por si hay parámetro adicionales a tener en cuenta
+        // por ejemplo con la paginación va el número de página y si se usa el nombre
+        // se irá al inicio de la lista y no a la página actual.
+
+        Session::remove('returnTo');  // borra la variable de sesión si la hubiera
+
         //return redirect('pelis')
         return redirect()->route('pelis.index')
                 ->with('success', "Película $peli->titulo eliminado.");
@@ -183,6 +197,9 @@ class PeliController extends Controller
     // Entrada manual de confirmación de borrado
     public function delete(PeliDeleteRequest $request, Peli $peli)
     {
+        // recuerda la URL anterior para futuras redirecciones
+        Session::put('returnTo', URL::previous());
+
         // Vista de confirmación de eliminación
         return view('pelis.delete', ['peli' => $peli]);
     }
